@@ -12,7 +12,7 @@ A meta-skill for private-first distribution of agentics (skills, agents, and pro
 
 > Update these after forking and cloning the library repo.
 
-- **LIBRARY_REPO_URL**: `<your forked repo url>`
+- **LIBRARY_REPO_URL**: `https://github.com/AI-DA-STC/the-library.git`
 - **LIBRARY_YAML_PATH**: `~/.claude/skills/library/library.yaml`
 - **LIBRARY_SKILL_DIR**: `~/.claude/skills/library/`
 
@@ -26,14 +26,15 @@ The Library is a catalog of references to your agentics. The `library.yaml` file
 
 | Command                     | Purpose                                  |
 | --------------------------- | ---------------------------------------- |
-| `/library install`          | First-time setup: fork, clone, configure |
-| `/library add <details>`    | Register a new entry in the catalog      |
-| `/library use <name>`       | Pull from source (install or refresh)    |
-| `/library push <name>`      | Push local changes back to source        |
-| `/library remove <name>`    | Remove from catalog and optionally local |
-| `/library list`             | Show full catalog with install status    |
-| `/library sync`             | Re-pull all installed items from source   |
-| `/library search <keyword>` | Find entries by keyword                  |
+| `/library install`          | First-time setup: fork, clone, configure              |
+| `/library add <details>`    | Register a new entry in the catalog                   |
+| `/library use <name>`       | Install from source; if already installed, check version and confirm before updating |
+| `/library update [name]`    | Check installed items for newer versions and update with confirmation; no name = check all |
+| `/library push <name>`      | Push local changes back to source                     |
+| `/library remove <name>`    | Remove from catalog and optionally local              |
+| `/library list`             | Show full catalog with install status                 |
+| `/library sync`             | Re-pull all installed items from source               |
+| `/library search <keyword>` | Find entries by keyword                               |
 
 ## Cookbook
 
@@ -41,14 +42,15 @@ Each command has a detailed step-by-step guide. **Read the relevant cookbook fil
 
 | Command | Cookbook                                 | Use When                                                    |
 | ------- | --------------------------------------- | ----------------------------------------------------------- |
-| install | [cookbook/install.md](cookbook/install.md) | First-time setup on a new device                            |
-| add     | [cookbook/add.md](cookbook/add.md)         | User wants to register a new skill/agent/prompt in catalog  |
-| use     | [cookbook/use.md](cookbook/use.md)         | User wants to pull or refresh a skill from the catalog      |
-| push    | [cookbook/push.md](cookbook/push.md)       | User improved a skill locally and wants to update the source |
-| remove  | [cookbook/remove.md](cookbook/remove.md)   | User wants to remove an entry from the catalog               |
-| list    | [cookbook/list.md](cookbook/list.md)       | User wants to see what's available and what's installed      |
-| sync    | [cookbook/sync.md](cookbook/sync.md)       | User wants to refresh all installed items at once            |
-| search  | [cookbook/search.md](cookbook/search.md)   | User is looking for a skill but doesn't know the exact name |
+| install | [cookbook/install.md](cookbook/install.md) | First-time setup on a new device                                        |
+| add     | [cookbook/add.md](cookbook/add.md)         | User wants to register a new skill/agent/prompt in catalog              |
+| use     | [cookbook/use.md](cookbook/use.md)         | User wants to install a skill, or re-install with version check         |
+| update  | [cookbook/update.md](cookbook/update.md)   | User wants to check for and apply updates to installed items            |
+| push    | [cookbook/push.md](cookbook/push.md)       | User improved a skill locally and wants to update the source            |
+| remove  | [cookbook/remove.md](cookbook/remove.md)   | User wants to remove an entry from the catalog                          |
+| list    | [cookbook/list.md](cookbook/list.md)       | User wants to see what's available and what's installed                 |
+| sync    | [cookbook/sync.md](cookbook/sync.md)       | User wants to refresh all installed items at once                       |
+| search  | [cookbook/search.md](cookbook/search.md)   | User is looking for a skill but doesn't know the exact name             |
 
 **When a user invokes a `/library` command, read the matching cookbook file first, then execute the steps.**
 

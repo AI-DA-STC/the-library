@@ -1,7 +1,7 @@
 # Use a Skill from the Library
 
 ## Context
-Pull a skill, agent, or prompt from the catalog into the local environment. If already installed locally, overwrite with the latest from the source (refresh).
+Pull a skill, agent, or prompt from the catalog into the local environment. If already installed locally, check for a version change and ask before overwriting.
 
 ## Input
 The user provides a skill name or description.
@@ -37,7 +37,46 @@ If the entry has a `requires` field:
 - Otherwise → use the `default` path
 - Select the correct section based on type (skills/agents/prompts)
 
-### 5. Fetch from Source
+### 5. Check Installed Version
+
+Determine whether this item is already installed:
+- Check if `<target_directory>/<name>/` exists (for skills) or `<target_directory>/<name>.md` exists (for agents/prompts)
+
+**If not installed** → skip to step 6, no confirmation needed.
+
+**If already installed**, compare versions:
+
+Read the local version from the installed file's frontmatter:
+```bash
+grep '^version:' <target_directory>/<name>/SKILL.md | head -1 | sed 's/version:[[:space:]]*//'
+```
+
+Fetch the remote version without a full clone:
+- For GitHub sources: use `gh api` to read just the frontmatter file:
+  ```bash
+  gh api repos/<org>/<repo>/contents/<file_path> --jq '.content' | base64 -d \
+    | grep '^version:' | head -1 | sed 's/version:[[:space:]]*//'
+  ```
+- For local sources: read the file directly.
+
+Then show the user one of these messages and **wait for confirmation**:
+
+- If remote version differs from local:
+  ```
+  wiki_brain is installed at v<local>. v<remote> is available.
+  Update to v<remote>? [y/N]
+  ```
+- If versions are the same:
+  ```
+  wiki_brain is already at v<version>. Re-install anyway? [y/N]
+  ```
+
+If the user says **no** (or anything other than y/yes): stop here and report:
+```
+Kept installed version: <name> v<local> at <target_directory>/<name>/
+```
+
+### 6. Fetch from Source
 
 **If source is a local path** (starts with `/` or `~`):
 - Resolve `~` to the home directory
@@ -81,13 +120,14 @@ If the entry has a `requires` field:
   git clone --depth 1 --branch <branch> git@github.com:<org>/<repo>.git "$tmp_dir"
   ```
 
-### 6. Verify Installation
+### 7. Verify Installation
 - Confirm the target directory exists
 - Confirm the main file (SKILL.md, AGENT.md, or prompt file) exists in it
 - Report success with the installed path
 
-### 7. Confirm
+### 8. Confirm
 Tell the user:
-- What was installed and where
+- What was installed/updated and where
+- The version that is now installed
 - Any dependencies that were also installed
-- If this was a refresh (overwrite), mention that
+- Whether this was a fresh install or an update
