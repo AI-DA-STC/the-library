@@ -10,6 +10,9 @@ default_dirs:
     - global: ~/.claude/commands/
 
 library:
-  skills: []
+  skills:
+    - name: wiki_brain
+      description: Build, maintain, query, and protect a persistent LLM-driven wiki knowledge base. Universal vault scaffolding, source-grounded ingest with citations, vault-first query, review-and-file conversation save, lint/reconcile/learn maintenance, and four-layer privacy controls.
+      source: https://github.com/AI-DA-STC/wiki_brain/blob/main/SKILL.md
   agents: []
   prompts: []
